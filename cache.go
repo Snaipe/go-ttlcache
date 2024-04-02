@@ -143,6 +143,8 @@ func (l *expireList[K, V]) Push(x any) {
 }
 
 func (l *expireList[K, V]) Pop() (val any) {
-	l.elts, val = l.elts[:len(l.elts)-1], l.elts[len(l.elts)-1]
+	val = l.elts[len(l.elts)-1]
+	l.elts[len(l.elts)-1] = nil // don't keep referencing the item
+	l.elts = l.elts[:len(l.elts)-1]
 	return val
 }
